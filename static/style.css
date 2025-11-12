@@ -1,0 +1,119 @@
+/* ----------------------------------- */
+/* 1. Reset Básico e Fundo             */
+/* ----------------------------------- */
+body {
+    font-family: Arial, sans-serif; /* Fonte padrão e limpa */
+    background-color: #f4f7f6; /* Fundo cinza claro suave */
+    color: #060606;
+    margin: 20px;
+}
+
+h1 {
+    color: #007bff; /* Título em tom de azul (cor padrão profissional) */
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* ----------------------------------- */
+/* 2. Estilização de Tabela            */
+/* ----------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Remove espaçamento entre bordas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    background-color: #fff;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #000000; /* Linhas divisórias claras */
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+/* Linha para itens críticos (abaixo do ponto de pedido) */
+tr[style*="background-color: #ffcccc;"] {
+    background-color: #ffe0e0 !important; /* Fundo mais suave */
+}
+
+/* ----------------------------------- */
+/* 3. Estilização de Links e Botões    */
+/* ----------------------------------- */
+
+/* Links de navegação */
+p a {
+    color: #007bff;
+    text-decoration: none; /* Remove sublinhado */
+    padding: 8px 15px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+p a:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* Links/Botões na coluna Ações da tabela */
+td a {
+    margin-right: 10px;
+    color: #28a745; /* Verde para Movimentar/Editar */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Botão Excluir */
+td form input[type="submit"] {
+    background-color: #dc3545; /* Vermelho para Excluir */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ----------------------------------- */
+/* 4. Estilização de Formulários       */
+/* ----------------------------------- */
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input[type="text"], 
+input[type="number"],
+select {
+    width: 300px;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Garante que padding e borda não aumentem o tamanho total */
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
