@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Controle de Estoque - Oficina</title>
+</head>
+<body>
+    <h1>Controle de estoque Demarchi Assistência Técnica</h1>
+    <p><a href="{{ url_for('adicionar_produto') }}">Adicionar Novo Produto</a></p>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>SKU</th>
+                <th>Nome</th>
+                <th>Estoque Atual</th>
+                <th>Custo (R$)</th>
+                <th>Ponto de Pedido</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in produtos %}
+            <tr {% if p.quantidade <= p.min_estoque %} style="background-color: #ffcccc;" {% endif %}>
+                <td>{{ p.sku }}</td>
+                <td>{{ p.nome }}</td>
+                <td>{{ p.quantidade }}</td>
+                <td>R$ {{ "%.2f" | format(p.custo) }}</td>
+                <td>{{ p.min_estoque }}</td>
+                <td>
+                    <a href="{{ url_for('movimentar_estoque', produto_id=p.id) }}">Movimentar</a>
+
+                    <a href="{{ url_for('editar_produto', produto_id=p.id) }}">Editar</a>
+                    
+                    <form action="{{ url_for('excluir_produto', produto_id=p.id) }}" method="POST" style="display:inline;">
+                        <input type="submit" value="Excluir" onclick="return confirm('Tem certeza que deseja excluir {{ p.nome }}?');">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p style="margin-top: 20px;">* Itens em vermelho estão abaixo do Ponto de Pedido.</p>
+</body>
+</html>
+

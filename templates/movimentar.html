@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Movimentar Estoque</title>
+</head>
+<body>
+    <h1>Movimentar Estoque: {{ produto.nome }}</h1>
+    <p>Estoque Atual: **{{ produto.quantidade }}**</p>
+    
+    <form method="POST">
+        <label for="tipo">Tipo de Movimento:</label><br>
+        <select id="tipo" name="tipo" required>
+            <option value="entrada">Entrada (Recebimento)</option>
+            <option value="saida">Saída (Uso em OS)</option>
+        </select><br><br>
+
+        <label for="quantidade">Quantidade:</label><br>
+        <input type="number" id="quantidade" name="quantidade" min="1" required><br><br>
+
+        <input type="submit" value="Confirmar Movimento">
+    </form>
+    <p><a href="{{ url_for('lista_estoque') }}">Voltar para o Estoque</a></p>
+</body>
+</html>
