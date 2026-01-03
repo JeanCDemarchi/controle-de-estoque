@@ -222,9 +222,8 @@ def excluir_cliente(id):
 
 # --- 4. EXECUÇÃO DO SERVIDOR ---
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
-    # Cria o arquivo do banco de dados se não existir
     with app.app_context():
         db.create_all()
-    # Inicia o servidor em http://127.0.0.1:5000/
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+    
