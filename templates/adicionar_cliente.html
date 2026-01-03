@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Cadastrar Novo Cliente</h1>
+    <form method="POST">
+        <label>Nome Completo:</label><input type="text" name="nome" required>
+        <label>CPF ou CNPJ:</label><input type="text" name="cpf_cnpj" required>
+        <label>Telefone:</label><input type="text" name="telefone">
+        <label>Email:</label><input type="email" name="email">
+        <hr>
+        <h3>Endereço</h3>
+        <label>CEP:</label><input type="text" name="cep">
+        <label>Rua/Av:</label><input type="text" name="logradouro">
+        <label>Número:</label><input type="text" name="numero">
+        <label>Bairro:</label><input type="text" name="bairro">
+        <label>Cidade:</label><input type="text" name="cidade">
+        <label>Estado (UF):</label><input type="text" name="estado" maxlength="2">
+        <br><br>
+        <input type="submit" value="Salvar Cliente">
+    </form>
+</body>
+</html>

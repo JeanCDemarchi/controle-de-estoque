@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Editar Cliente: {{ cliente.nome }}</h1>
+    <form method="POST">
+        <label>Nome Completo:</label><input type="text" name="nome" value="{{ cliente.nome }}" required>
+        <label>CPF ou CNPJ:</label><input type="text" name="cpf_cnpj" value="{{ cliente.cpf_cnpj }}" required>
+        <label>Telefone:</label><input type="text" name="telefone" value="{{ cliente.telefone }}">
+        <label>Email:</label><input type="email" name="email" value="{{ cliente.email }}">
+        <hr>
+        <h3>Endereço</h3>
+        <label>CEP:</label><input type="text" name="cep" value="{{ cliente.cep }}">
+        <label>Rua/Av:</label><input type="text" name="logradouro" value="{{ cliente.logradouro }}">
+        <label>Número:</label><input type="text" name="numero" value="{{ cliente.numero }}">
+        <label>Bairro:</label><input type="text" name="bairro" value="{{ cliente.bairro }}">
+        <label>Cidade:</label><input type="text" name="cidade" value="{{ cliente.cidade }}">
+        <label>Estado:</label><input type="text" name="estado" value="{{ cliente.estado }}" maxlength="2">
+        <br><br>
+        <input type="submit" value="Salvar Alterações">
+        <a href="{{ url_for('lista_clientes') }}">Cancelar</a>
+    </form>
+</body>
+</html>

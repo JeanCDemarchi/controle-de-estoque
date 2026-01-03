@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes - Oficina</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('lista_estoque') }}">📦 Estoque</a> | 
+        <a href="{{ url_for('lista_clientes') }}">👥 Clientes</a>
+    </nav>
+
+    <h1>Clientes Cadastrados</h1>
+
+    <div class="busca-container">
+        <form action="{{ url_for('lista_clientes') }}" method="GET">
+            <input type="text" name="q" placeholder="Buscar cliente por nome ou CPF/CNPJ..." value="{{ busca }}">
+            <button type="submit">Buscar</button>
+            {% if busca %}
+                <a href="{{ url_for('lista_clientes') }}" class="btn-limpar">Limpar Filtro</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <p><a href="{{ url_for('adicionar_cliente') }} " class="btn-adicionar">+ Novo Cliente</a></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF/CNPJ</th>
+                <th>Telefone</th>
+                <th>Cidade/UF</th>
+                <th>Ações</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in clientes %}
+            <tr>
+                <td>{{ c.nome }}</td>
+                <td>{{ c.cpf_cnpj }}</td>
+                <td>{{ c.telefone }}</td>
+                <td>{{ c.cidade }} / {{ c.estado }}</td>
+
+                <td>
+                    <a href="{{ url_for('editar_cliente', id=c.id) }}" style="color: #28a745; text-decoration: none; font-weight: bold;">Editar</a>
+                    
+                    <form action="{{ url_for('excluir_cliente', id=c.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?')">
+                        <button type="submit" style="background:none; border:none; color: #dc3545; cursor:pointer; font-weight:bold; padding:0;">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
