@@ -2,14 +2,14 @@
 /* 1. Reset Básico e Fundo             */
 /* ----------------------------------- */
 body {
-    font-family: Arial, sans-serif; /* Fonte padrão e limpa */
-    background-color: #f4f7f6; /* Fundo cinza claro suave */
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
     color: #060606;
     margin: 20px;
 }
 
 h1 {
-    color: #007bff; /* Título em tom de azul (cor padrão profissional) */
+    color: #007bff;
     border-bottom: 2px solid #007bff;
     padding-bottom: 10px;
     margin-bottom: 20px;
@@ -20,8 +20,8 @@ h1 {
 /* ----------------------------------- */
 table {
     width: 100%;
-    border-collapse: collapse; /* Remove espaçamento entre bordas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     margin-top: 20px;
 }
@@ -29,7 +29,7 @@ table {
 th, td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #000000; /* Linhas divisórias claras */
+    border-bottom: 1px solid #ddd; /* Linha mais suave para leitura */
 }
 
 th {
@@ -39,74 +39,122 @@ th {
     font-size: 14px;
 }
 
-/* Linha para itens críticos (abaixo do ponto de pedido) */
+/* Linha para itens críticos */
 tr[style*="background-color: #ffcccc;"] {
-    background-color: #ffe0e0 !important; /* Fundo mais suave */
+    background-color: #ffe0e0 !important;
 }
 
 /* ----------------------------------- */
-/* 3. Estilização de Links e Botões    */
+/* 3. Navegação e Barra de Busca       */
 /* ----------------------------------- */
 
-/* Links de navegação */
+/* Container da Busca */
+.busca-container {
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.busca-container input[type="text"] {
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.busca-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.busca-container button:hover {
+    background-color: #0056b3;
+}
+
+.btn-limpar {
+    margin-left: 10px;
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Links de navegação superiores */
 p a {
     color: #007bff;
-    text-decoration: none; /* Remove sublinhado */
+    text-decoration: none;
     padding: 8px 15px;
     border: 1px solid #007bff;
     border-radius: 4px;
     display: inline-block;
     transition: background-color 0.3s;
+    margin-bottom: 10px;
 }
 
 p a:hover {
-    background-color: #0056b3;
+    background-color: #007bff;
     color: white;
 }
 
-/* Links/Botões na coluna Ações da tabela */
+/* ----------------------------------- */
+/* 4. Ações na Tabela                  */
+/* ----------------------------------- */
+
 td a {
     margin-right: 10px;
-    color: #28a745; /* Verde para Movimentar/Editar */
+    color: #28a745; 
     text-decoration: none;
     font-weight: bold;
 }
 
-/* Botão Excluir */
-td form input[type="submit"] {
-    background-color: #dc3545; /* Vermelho para Excluir */
+/* Estilização do botão excluir dentro da tabela */
+td form {
+    display: inline;
+}
+
+td form button, td form input[type="submit"] {
+    background-color: #dc3545;
     color: white;
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 12px;
 }
 
 /* ----------------------------------- */
-/* 4. Estilização de Formulários       */
+/* 5. Estilização de Formulários       */
 /* ----------------------------------- */
 label {
     display: block;
-    margin-top: 10px;
+    margin-top: 15px;
     font-weight: bold;
 }
 
 input[type="text"], 
 input[type="number"],
+input[type="email"],
 select {
-    width: 300px;
+    width: 100%;
+    max-width: 400px;
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* Garante que padding e borda não aumentem o tamanho total */
+    display: block;
 }
 
-input[type="submit"] {
+input[type="submit"].btn-salvar {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 25px;
     margin-top: 20px;
     border-radius: 4px;
     cursor: pointer;
