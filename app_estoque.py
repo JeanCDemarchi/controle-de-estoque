@@ -14,6 +14,7 @@ class Produto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     sku = db.Column(db.String(20), unique=True, nullable=False) # Código Único
+    ncm = db.Column(db.String(8))
     quantidade = db.Column(db.Integer, default=0)
     custo = db.Column(db.Float, default=0.0) # Preço de Custo
     min_estoque = db.Column(db.Integer, default=5) # Ponto de Pedido
@@ -21,18 +22,47 @@ class Produto(db.Model):
     def __repr__(self):
         return f'<Produto {self.nome} - {self.quantidade}>'
 
+class Cliente(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    cpf_cnpj = db.Column(db.String(20), unique=True, nullable=False)
+    telefone = db.Column(db.String(20))
+    email = db.Column(db.String(100))
+    # Endereço Completo
+    logradouro = db.Column(db.String(100)) # Rua, Av, etc.
+    numero = db.Column(db.String(10))
+    bairro = db.Column(db.String(50))
+    cidade = db.Column(db.String(50))
+    estado = db.Column(db.String(2))
+    cep = db.Column(db.String(10))
+
+    def __repr__(self):
+        return f'<Cliente {self.nome}>'
+
 # Cria o banco de dados e as tabelas (Execute isso uma vez)
 with app.app_context():
     db.create_all()
 
 # --- 3. ROTAS DO SERVIDOR WEB ---
 
-# Rota principal: Lista o estoque
+
+# Rota principal: Lista o estoque com opção de busca
 @app.route('/')
 def lista_estoque():
-    # Ordena os produtos por nome
-    produtos = Produto.query.order_by(Produto.nome).all()
-    return render_template('estoque.html', produtos=produtos)
+    # Pega o termo de busca enviado pelo formulário (via método GET)
+    termo_busca = request.args.get('q', '')
+
+    if termo_busca:
+        # Filtra produtos que contenham o termo no Nome OU no SKU
+        produtos = Produto.query.filter(
+            (Produto.nome.contains(termo_busca)) | 
+            (Produto.sku.contains(termo_busca))
+        ).all()
+    else:
+        # Se não houver busca, lista todos ordenados por nome
+        produtos = Produto.query.order_by(Produto.nome).all()
+    
+    return render_template('estoque.html', produtos=produtos, busca=termo_busca)
 
 # Rota para adicionar um novo produto
 @app.route('/adicionar', methods=['GET', 'POST'])
@@ -41,13 +71,15 @@ def adicionar_produto():
         # Pega os dados do formulário
         nome = request.form['nome']
         sku = request.form['sku']
+        ncm = request.form['ncm']
         quantidade = int(request.form['quantidade'])
         custo = float(request.form['custo'])
         min_estoque = int(request.form['min_estoque'])
 
         novo_produto = Produto(
             nome=nome, 
-            sku=sku, 
+            sku=sku,
+            ncm=ncm, 
             quantidade=quantidade, 
             custo=custo, 
             min_estoque=min_estoque
@@ -104,6 +136,7 @@ def editar_produto(produto_id):
         # Atualiza os campos do produto com os dados do formulário
         produto.nome = request.form['nome']
         produto.sku = request.form['sku']
+        produto.ncm = request.form['ncm']
         produto.custo = float(request.form['custo'])
         produto.min_estoque = int(request.form['min_estoque'])
         
@@ -119,6 +152,72 @@ def editar_produto(produto_id):
             
     # Se for GET, mostra o formulário preenchido com os dados atuais
     return render_template('editar.html', produto=produto)
+
+@app.route('/clientes')
+def lista_clientes():
+    # Pega o termo de busca do campo 'q' na URL
+    termo_busca = request.args.get('q', '')
+
+    if termo_busca:
+        # Filtra clientes que contenham o termo no Nome OU no CPF/CNPJ
+        clientes = Cliente.query.filter(
+            (Cliente.nome.contains(termo_busca)) | 
+            (Cliente.cpf_cnpj.contains(termo_busca))
+        ).all()
+    else:
+        # Se não houver busca, lista todos por ordem alfabética
+        clientes = Cliente.query.order_by(Cliente.nome).all()
+    
+    return render_template('clientes.html', clientes=clientes, busca=termo_busca)
+
+@app.route('/clientes/novo', methods=['GET', 'POST'])
+def adicionar_cliente():
+    if request.method == 'POST':
+        novo_cliente = Cliente(
+            nome=request.form['nome'],
+            cpf_cnpj=request.form['cpf_cnpj'],
+            telefone=request.form['telefone'],
+            email=request.form['email'],
+            logradouro=request.form['logradouro'],
+            numero=request.form['numero'],
+            bairro=request.form['bairro'],
+            cidade=request.form['cidade'],
+            estado=request.form['estado'],
+            cep=request.form['cep']
+        )
+        db.session.add(novo_cliente)
+        db.session.commit()
+        return redirect(url_for('lista_clientes'))
+    return render_template('adicionar_cliente.html')
+
+# Rota para Editar Cliente
+@app.route('/clientes/editar/<int:id>', methods=['GET', 'POST'])
+def editar_cliente(id):
+    cliente = Cliente.query.get_or_404(id)
+    if request.method == 'POST':
+        cliente.nome = request.form['nome']
+        cliente.cpf_cnpj = request.form['cpf_cnpj']
+        cliente.telefone = request.form['telefone']
+        cliente.email = request.form['email']
+        cliente.logradouro = request.form['logradouro']
+        cliente.numero = request.form['numero']
+        cliente.bairro = request.form['bairro']
+        cliente.cidade = request.form['cidade']
+        cliente.estado = request.form['estado']
+        cliente.cep = request.form['cep']
+        
+        db.session.commit()
+        return redirect(url_for('lista_clientes'))
+    
+    return render_template('editar_cliente.html', cliente=cliente)
+
+# Rota para Excluir Cliente
+@app.route('/clientes/excluir/<int:id>', methods=['POST'])
+def excluir_cliente(id):
+    cliente = Cliente.query.get_or_404(id)
+    db.session.delete(cliente)
+    db.session.commit()
+    return redirect(url_for('lista_clientes'))
 
 # --- 4. EXECUÇÃO DO SERVIDOR ---
 if __name__ == '__main__':
